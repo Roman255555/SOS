@@ -1,0 +1,33 @@
+  GNU nano 2.7.4                               
+Soubor: skript5.sh                                         
+
+#!/bin/bash
+
+for i in *;
+do
+a=$(echo $i | wc -c);
+
+for k in *;
+do
+b=$(echo $k | wc -c);
+
+if [ "$a" -eq "$b" ];
+then
+mkdir $i/$k;
+fi
+
+done
+done
+
+
+
+
+
+___________________________________________________
+
+
+#!/bin/bash
+
+wget http://seidl.cs.vsb.cz/download/posty.csv.txt
+for i in $(cat posty.csv.txt | gawk -F ";"  '$5 ~ /5/ && $5 !~ /55/ {print $1}' | tr ' ' '_' | tr -d '"');
+do mkdir /opt/SOS/$i; done

@@ -1,0 +1,12 @@
+1. apt-get install iptables
+2.           # enp0s8 is an adapter 2 that points to the host/main computer to be configured with a static IP address.
+	     # enp0s3 network card (NAT) is used for external network access and enp0s8 network 
+		card (Host-Only) is used for host access to virtual machine. 	
+3. dhclient enp0s8
+4. allow-hotplug ep0s8
+   iface enp0s8 inet static
+	address 192.168.57.100
+	netmask 255.255.255.0
+
+5. Vypis iptables -L
+6. NASTAVENIE DEFAULTNEJ POLITIKY   iptables -p INPUT ACCEPT

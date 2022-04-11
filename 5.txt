@@ -1,0 +1,19 @@
+1) fdisk -l
+2) cfdisk /dev/sdx
+3) mount /dev/sdxy /mnt
+4) cp /home/* /mnt
+5) umount /dev/sdxy
+6) mount /dev/sdxy /home
+
+--------------------------
+
+
+Opět vytvořit partitiony
+
+# mdadm --create /dev/md0 --level=5 --raid-devices=4 /dev/sdc1 /dev/sdd1 /dev/sde1 /dev/sdf1 --spare-devices=1 /dev/sdg
+
+Změnit typ RAIDu, počet zařízení a spare disk podle zadání.
+
+# mdadm --manage /dev/md0 --set-faulty /dev/sde1
+# mdadm --manage /dev/md0 --remove /dev/sde1
+# mdadm --manage /dev/md0 --add /dev/sde1

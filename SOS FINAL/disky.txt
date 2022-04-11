@@ -1,0 +1,35 @@
+1. pridať disky
+	Vylistovanie diskov:
+			    cat /etc/fstab
+		            blkid
+			    ls /dev | grep sd
+
+2. Vytvorenie tabulky oblastí:
+			      cfdisk /dev/sdb
+			      ulozit a napisat ano
+			      ls /dev/ | grep sdb -> vzniklo sdb1
+
+3. formátovanie:
+		mkfs.ext4 /dev/sdb1
+
+4. namountovanie:
+		mount /dev/sdb1 /mnt´
+
+5. spustenie mc:
+		mc
+		enter, /mnt
+		tab, home, f5
+
+		mount /dev/sdb1 /home/
+
+6. nastavenie aby sa mountovalo aj po restarte:
+						mcedit /etc/fstab
+						/dev/sdb1<--->/home<-><--->ext4<-->defaults><--->0<--->0
+						umount /mnt
+						umount /home
+
+7. mount -a -> pripoji vsetky disky podla suboru fstab
+
+
+
+		

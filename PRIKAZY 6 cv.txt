@@ -1,0 +1,45 @@
+1. ip add
+2. dhclient enp0s8
+3. adduser franta
+4. cat /etc/passwd      10001:10001 -> identifikator uzivatela
+5. apt install man
+6. ls -la /etc/shadow
+7. cat /etc/group
+8. ls -la /etc/skel/
+9. ls -la /home/franta/
+10. apt update
+11. install opennsl
+12. useradd -m -s /bin/bash -c "Bezny Franta Uzivatel" -p $(echo "franta" | openssl passwd -1 -stdin ) franta
+13. useradd -m -s /bin/bash -c "Bezny Franta Uzivatel" -p "" franta2
+14. addgroup student
+15. addgroup franta student
+16. delgroup franta student
+17. cd /home/
+18. touch test_prav
+19. echo AHOJ > test_prav
+20. chgrp student test_prav
+
+21. ls/dev/sd
+22. mkfs.ext4 /dev/sdb
+22.mount /dev/sdb /mnt/                     // f10 prec z mc
+23. cd /home/   mc -> tab -> mnt shift a cela lava strana f5
+24. mount /dev/sdb /home
+25. mount | grep home
+26. apt install quota
+27. mount -o remount,usrquota,grpquota /home
+28. mount | grep home
+29. service quota start
+30. quotacheck /dev/sdb
+31. quotaon /dev/sdb
+32. edquota franta
+33. export EDITOR=mcedit
+34. quota franta
+35.1h 21min vytvorenie velkeho suboru
+26.# ls -la -> vytvorili sa 2 nove subory aquota.group, adquouta.user   musim ale vyst z homu a 
+nazad cd.. a do homu..
+
+27.Vytvorenie uzivatela s qouotou prototyp:
+edquota -p franta franta2                -> prototyp je franta, prirad quotu ako ma franta frantovi2
+
+28. edquota -T franta2                  -> doba odkladu
+equota -t   -> pre vsetkych 

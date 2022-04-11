@@ -1,0 +1,78 @@
+virtualka musi byt vypnuta
+
+SETTINGS -> STORAGE -> ADD HARDDISK ->CREATE NEW
+
+PRIKAZY:
+
+fdisk -l   -> prelistuje vsetky zariadenia
+fdisk /dev/sdb -> konfiguracia disku
+n             -> new
+p             -> primary partition
+1             -> čislo partitiony
+ent,ent
+p             -> print 
+w             -> ulozit
+
+mkfs.ext4 /dev/sdb1   -> vytvorý filesystém
+mkdir /c
+mount /dev/sdb1 /c
+df -h          ->  vypis filesystemu
+
+ls /c  == lost+found -> ked system kontroluje filesystém a nájde 
+
+
+
+
+CV:
+
+1. cfdisk /dev/sdb    -> vytvorenie, zmazanie, uprava partitiony disku
+
+
+3) mount /dev/sdxy /mnt
+4) cp -r /home/* /mnt
+5) umount /dev/sdxy
+6) mount /dev/sdxy /home
+
+
+
+apt update
+apt upgrade
+
+/// RAIDY:
+1. pridat disky vo vm
+2. cat /proc/partitions     -> vypise disky
+3. vytvorit partitions pre vsetky disky fdisk /dev/sdb..sdc..sdd      n p 1 w
+4. cat /proc/partitions     -> kontrola vytvorenia
+5. mdadm --create /dev/md0 -a yes -l 5 -n 3 /dev/sdc1 /dev/sde1 /dev/sdd1
+6. mkfs.ext4 /dev/md0
+7. mount /dev/md0 /mnt
+8. df -h 
+9. dd if=/dev/zero of=/mnt/file.mp4 bs=4096 count=100000  -->kontrolny file
+
+
+OPRAVA:::
+nano /etc/apt/sources.list
+
+na zaciatok:
+deb http://deb.debian.org/debian bullseye main
+deb-src http://deb.debian.org/debian bullseye main
+
+apt-get update
+
+///////
+
+
+Opět vytvořit partitiony
+
+# mdadm --create /dev/md0 --level=5 --raid-devices=4 /dev/sdc1 /dev/sdd1 /dev/sde1 /dev/sdf1 --spare-devices=1 /dev/sdg
+
+Změnit typ RAIDu, počet zařízení a spare disk podle zadání.
+
+# mdadm --manage /dev/md0 --set-faulty /dev/sde1
+# mdadm --manage /dev/md0 --remove /dev/sde1
+# mdadm --manage /dev/md0 --add /dev/sde1
+
+
+
+info:
+mdadm --detail /dev/md1

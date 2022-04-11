@@ -1,0 +1,17 @@
+which bash -> kde sa bash nachadza
+
+#! /usr/bin/bash
+
+echo "what your name ?"
+read name
+if [ $name ] ; then                =====> musi byt medzera v zatvorke
+	echo "Okej"
+else
+	echo "not Okej"
+fi                                 ===> koniec smičky musi byt
+
+
+
+SYSTEMD:
+
+nano /etc/systemd/system/nazovsluzby.service

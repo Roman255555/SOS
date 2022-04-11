@@ -1,0 +1,25 @@
+1)
+
+ssh sal0095@linedu.vsb.cz ls /home/fei >> vypis.txt
+for i in $(cat vypis.txt | grep 00); do mkdir /opt/SOS/$i; done
+
+2)
+
+wget http://seidl.cs.vsb.cz/download/seznam-obci-cr.txt
+for i in $(cat seznam-obci-cr.txt | grep ova | grep -v Nova | tr ' ' '_'); do mkdir /opt/SOS/$i; done
+
+
+3)
+
+wget http://seidl.cs.vsb.cz/download/obce_psc.csv.txt
+for i in $(cat obce_psc.csv.txt | mawk -F ","  '$1 ~ /5/ {print $2}' | tr ' ' '_'); do mkdir /opt/SOS/$i; done
+
+4)
+
+wget http://seidl.cs.vsb.cz/download/posty.csv.txt
+for i in $(cat posty.csv.txt | mawk -F ";"  '$5 ~ /5/ && $5 !~ /55/ {print $1}' | tr ' ' '_'); do mkdir /opt/SOS/$i; done
+
+5)
+
+wget http://seidl.cs.vsb.cz/download/posty.csv.txt
+for i in $(cat posty.csv.txt | mawk -F ";"  '$3 ~ "/" && $3 !~ /s/ && $3 !~ /S/ {print $1}' | tr ' ' '_'); do mkdir /opt/SOS/$i; done
