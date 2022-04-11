@@ -1,0 +1,23 @@
+RAID0 - nezálohuje, len navýši kapacitu 
+RAID1 - MIRRORING
+RAID5 - minimálny počet diskov je 3, možem si dovolit stratit 1 disk
+RAID6 - mizem si dovolit stratit 2 disky
+
+1. instalacia mdadm: apt install mdadm
+
+2. mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdc /dev/sdd --spare-devices=1 dev/sde
+- vytvori sa raid1
+KONTROLA:::: v cat /proc/mdstat
+- este ho nemozem pouzivat, treba naformatovat
+
+3. formatovanie: mkfs.ext4 /dev/md0
+
+4. ?mount: mount /dev/md0 /mnt
+
+5. nastavenie chybneho disku: mdadm --manage /dev/md0 --set-faulty /dev/sdd
+
+6. oprava: mdadm --manage /dev/md0 --remove /dev/sdd
+	   mdadm --manage /dev/md0 --add /dev/sdd
+
+7. spravne mountovanie raidu:
+			     blkid

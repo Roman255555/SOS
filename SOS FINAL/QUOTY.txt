@@ -1,0 +1,16 @@
+1. apt install quota
+2. mount -o remount,usrquota,grpquota /home    kontrola: mount | grep home
+3. quotacheck /dev/sdb1
+4. quotaon /dev/sdb1
+5. 
+6. edquota franta         VYPIS QUOTY : quota franta         repquota -a
+
+PROTOTYP:
+	 edquota -p franta franta2
+
+UPRAVA DOBY ODKLADU :
+	edquota -T franta2
+
+UPRAVA FSTAB PRE QUOTY:
+			/dev/sdb1<--->/home<-><--->ext4<-->defaults,usrquota,grpquota><--->0<--->0
+

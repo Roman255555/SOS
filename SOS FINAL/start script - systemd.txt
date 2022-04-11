@@ -1,0 +1,29 @@
+[Unit]
+Wants=bluethooth.service -> wants určuje na čom je jednotka závislá, ale spustí sa aj ked bluetooth.service zlyhá
+After=multi-user.target  -> jednotka sa spustí až po tejto definovanej jednotke
+
+[Service]
+Type=oneshot  -> spusti sa raz pri starte, sluzba je povazovana za nastartovanu ked proces supstený ExecStart skoncil
+ExecStart=/usr/bin/tlp init start    -> čo sa spravi ked jednotka startuje
+ExecStop=/usr/bin/tip init stop      -> |-| ked skonči
+
+[Install]
+WantedBy=multi-user.target -> skupina jednotiek, takto jednotka bude sucastou multi-user 
+
+
+nastavenie:
+
+1. cd /etc/systemd/system
+2. systemctl status ..nazovservice..       -> musim byt v systemd/system
+3. mozem smpustit popmocou systemctl start ..nazovservice..
+4. zavedenie sluzby aby sa spustili pri starte : systemctl enable ..nazovservice..
+
+5. cyklycke spustanie :
+			mcedit /etc/crontab
+upravenie kazdu minutu sekund:
+			* *<--> * * * <--> root <--> text -x /opt/test && /opt/test
+utilitka: watch cat "/tmp/test"
+
+- ak chcem aby sa spustal skript kazdych 30 sec pridam este riadok:
+			* *<--> * * * <--> root <--> text -x /opt/test && sleep 30; /opt/test
+					

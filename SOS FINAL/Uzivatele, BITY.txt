@@ -1,0 +1,74 @@
+UZIVATELIA:
+	   adduser franta
+	   deluser --remove-home franta
+
+	   useradd
+	   userdel
+
+1. apt install openssl
+2. useradd -m -s /bin/bash -c "bezny uzivatel" -p $(echo "franta" | openssl passwd -1 -stdin) franta
+3. useradd -m -s /bin/bash -c "bezny uzivatel" -p "" franta2   -> vytvorenie uzivatela bez hesla
+
+
+
+SKUPINY:
+	addgroup students
+	addgroup franta students -> pridanie do skupiny
+        chgrp students test_prav -> zmena skupiny, pre aktualizaciu treba relog
+
+ZMENA HESLA: passwd franta
+	     passwd -e franta     -> vynuti uzivatela na zmenu hesla 
+
+PRAVA:
+      chmod g+w test-prav   -> zmeni pre skupinu pravo na write do suboru
+      chmod u+w test-prav   -> user
+      chmod o+w test-prav   -> others
+
+      1 - execute
+      2 - write
+      4 - read
+      
+      chmod 777 test-prav  -> nastavi vsetky prava, inak by sa pouzilo napr (chmod 701 test-prav)
+
+BITY:
+     t-bit  -> zakazuje zmazanie zlozky inym uzivatelom, aj ked ma na to pravo 
+     chmod o+t /tmp   -> pridanie tbitu
+
+     s-bit  -> uzivatelom vytovreny subor bude patrit skupine
+     chmod g+s /tmp  -> plati pre suobry vytvorene v tmp
+
+     chmod u+s subor  -> subor sa bude spustat pod pravami toho kto ho pustil
+
+VYPIS: 
+      cat /etc/passwd  -> uzivatelia
+      cat /etc/shadow  -> hesla 
+      cat /etc/group
+      ls -la /etc/skel   -> co maju novy uzivatelia ked sa vytvoria
+
+
+SKRIPT Z TESTU:
+#!/bin/bash
+
+param=$1
+size=${#param}
+
+if [ $size -eq 0 ]
+then
+
+for i in $(seq 0 10);
+do
+	USERADD -m -s /bin/bash -p "" user$i;
+	edquota -p franta user $i;
+done;
+
+elif [ $size -lt 5 ]
+then
+	echo "zadajte dlhsie heslo";
+
+elif [ $size -gt 5 ]
+then
+	useradd -m -s /bin/bash -p $(echo $param | openssl passwd -1 -stdin) user$i;
+	edquota -p franta user$i;
+fi
+
+

@@ -1,0 +1,92 @@
+1. apt install apache2
+2. apt install mc
+3. cd /etc/apache2  #
+4. mc  #
+5. cd /var/www/html/   -> tu sa nachadzaju stranky
+6. apt install libapache2-mod-php
+7. service apache2 restart
+8. /usr/sbin/service apache2 restart´
+9. cd /var/www/html/
+10. mv index.html index.php
+11. mcedit index.php
+	12. na začiatok dokumentu dat <?php phpinfo(); ?>   a f2 ulozit
+13. cd /etc/apache2
+14. mc
+
+cd /etc/apache2/mods-enabled
+15. /usr/sbin/a2enmod   -> vypise vsetky moduly ktore sa daju povolit
+16. /usr/sbin/a2enmod ssl   -> povoli ssl
+17. systemctl restart apache2
+18. /usr/sbin/a2ensite 
+19. /usr/sbin/a2ensite default-ssl
+20. systemctl reload apache2
+
+21. cd .. cd..
+22. mkdir public_html
+    cd public_html
+23. echo AHOJ > index.php
+
+
+24. apt install default-mysql-server
+25. apt install wget
+26. wget https://releases.wikimedia.org/mediawiki/1.34/mediawiki-1.34.1.tar.gz
+27. ln -s mediawiki-1.34.1 wiki
+28. mysql -u root -p
+29. use mysql
+30. create user 'wiki'@'localhost' identified by 'wiki';
+31. \q
+32.mysql -u root
+33. create database wiki;
+34. use wiki
+35. grant all on wiki.* to wiki@localhost;
+36. \q
+37. apt install php-mbstring
+38. apt install php-xml
+39. /usr/sbin/service apache2 restart
+40. apt install php-mysql
+41. /usr/sbin/service apache2 restart      // scp LocalSettings.php 192.168.56.102:/tmp
+42. cp LocalSettings.php /var/www/html/wiki        // prepinanie alt +f1
+43. logout... root
+
+NFS:
+44. apt install nfs-kernel-server
+45. mcedit /etc/exports
+46. v edite na koniec /opt/tab tab 192.168.57.0/24(rw,sync,no_subtree_check)
+47. /usr/sbin/service nfs-kernel-server restart
+48. exportfs     -> zistim ci je zlozka vyexportovana
+
+	49. NA KLIENTSKOM: apt-install nfs-common
+			   apt update
+			   apt install nfs-common
+			   mount 192.168.57.2:/opt /opt
+			   mount | grep "opt"
+			   - ak chcem z klienta vytvarat v danej zlozke subory tak na servery
+				prikaz chmod 777 opt/
+
+DHCP:
+na serveri
+
+1. apt install isc-dhcp-server
+2. mcedit /etc/default/isc-dhcp-server
+3. interfaces v4 "enp0s8"
+4. mcedit /etc/dhcp/dhcpd.conf
+5. na klientovi: cat /etc/resolv.conf a zistit nameserver
+6. do option domain name servers dat namiest toho.org napr 10.0.2.3,8.8.8.8
+7. tam kde je this subnet BOOTP dat svoje :
+	subnet 192.168.57.0 netmask 255.255.255.0
+	range 192.168.57.150 192.168.57.200;
+	option broadcast-address 192.168.57.255;
+	option routers 192.168.57.2;
+
+8. /usr/sbin/service isc-dhcp-server restart
+9. /usr/sbin/service isc-dhcp-server status
+
+na klientovi:
+10. ifdown enp0s3
+11. ifup enp0s3
+
+
+
+client:
+
+ip addr add add 192.168.57.100/24 dev enp0s3

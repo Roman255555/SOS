@@ -1,0 +1,21 @@
+VYPIS DNS: cat /etc/resolv.conf
+
+1. zmena ip mcedit /etc/network/interfaces
+   allow hotplug-enp0s8 
+   iface enp0s8 inet static
+	address 192.168.57.2
+	netmask 255.255.255.0
+
+2. reset :
+	  ifdown enp0s8
+	  ifup enp0s8
+
+"""" NASTAVENIE ADRESY NA KLIENTOVY: """ ip addr add 192.168.57.100/24 dev enp0s3
+
+IPTABLES:
+
+VYPIS: iptables -L
+
+		iptables -P INPUT drop
+POVOLENIE ICMP: iptables -A INPUT -i enp0s8 -p icmp -j ACCEPT
+		iptables -A INPUT -i enp0s3 ACCEPT    -> povli komunikaciu na enpos3
